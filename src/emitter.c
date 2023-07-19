@@ -12,6 +12,9 @@ uint8_t init_emitter() {
     *(emit_pos->code_pos) = 0;
     emit_pos->header_pos =  (uint32_t*)malloc(sizeof(uint32_t));
     *(emit_pos->header_pos) = 0;
+    fclose(fopen("../f_emit.txt", "w"));
+    fclose(fopen("../f_header.txt", "w"));
+    // f_emit = fopen("../f_emit.txt", "w");
     printf("\n>>Initialize DONE...");
 }
 
@@ -58,13 +61,14 @@ uint8_t file_write(FILE *f_submit) {
     uint8_t buffer[size];
     size_t read_bytes = 0;
     size_t total_bytes = 0;
-    f_emit = fopen("../f_emit.txt", "a");
+    f_submit = fopen("../f_final.txt", "w");
+    f_emit = fopen("../f_emit.txt", "rb");
+    f_header = fopen("../f_header.txt", "rb");
     while ((read_bytes = fread(buffer, 1, size, f_header)) > 0) {
         printf("\n>> read_byte = %d", read_bytes);
         fwrite(buffer, 1, read_bytes, f_submit);
         total_bytes = total_bytes + read_bytes;
     }
-    f_header = fopen("../f_header.txt", "a");
     fseek(f_submit, total_bytes, SEEK_SET);
     while ((read_bytes = fread(buffer, 1, size, f_emit)) > 0) {
         printf("\n>> read_byte = %d", read_bytes);

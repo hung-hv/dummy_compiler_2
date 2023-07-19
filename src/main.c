@@ -21,14 +21,14 @@ int main() {
 
    // FILE *f_emit = fopen("../f_emit.txt", "w");
    // FILE *f_header = fopen("../f_header.txt", "w");
-   FILE *f_final = fopen("../f_final.txt", "w");
+   FILE *f_code;
    emit("hahahahahaha");
    emit(" hihihi");
-   // emit_newline("ha viet hung");
-   // emit_header("ha viet hung");
+   emit_newline("ha viet ");
+   emit_header("ha viet hung");
    emit_header("ha viet dung");
-   file_write(f_final);
-
+   file_write(f_code);
+   // fclose(f_code);
    
    
    // fclose(f_emit);
