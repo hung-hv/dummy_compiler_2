@@ -22,5 +22,6 @@ uint8_t f_write( char* code, FILE *fp, uint32_t* pos);
 uint8_t emit(char* code);
 uint8_t emit_newline(char* code);
 uint8_t emit_header(char* code);
-uint8_t file_write(FILE *f_submit);
-#endif
+uint8_t file_write(FILE *f_submit); 
+//haha
+#endif 
