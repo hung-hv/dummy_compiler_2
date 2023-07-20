@@ -22,12 +22,12 @@ int main() {
    // FILE *f_emit = fopen("../f_emit.txt", "w");
    // FILE *f_header = fopen("../f_header.txt", "w");
    FILE *f_code;
-   emit("hahahahahaha");
-   emit(" hihihi");
-   emit_newline("ha viet ");
-   emit_header("ha viet hung");
-   emit_header("ha viet dung");
-   file_write(f_code);
+   // emit("hahahahahaha");
+   // emit(" hihihi");
+   // emit_newline("ha viet ");
+   // emit_header("ha viet hung");
+   // emit_header("ha viet dung");
+   
    // fclose(f_code);
    
    
@@ -59,19 +59,11 @@ int main() {
 
    printf("\n>>Starting parser ...\n");
 
-   // parser_program (parser_token, code);
+   parser_program (parser_token, code);
 
 
      
-   // add_declared_var(parser_token, "dcm");
-   // add_declared_var(parser_token, "dcm_thangloz");
-   // add_declared_var(parser_token, "ha viet hung");
 
-   // IsDeclaredVariable(parser_token, "dcm");
-
-   // add_gotoed_var(parser_token, "dcmmmmm");
-   // add_gotoed_var(parser_token, "dcmmmm_thangloz");
-   // add_gotoed_var(parser_token, " hunggg");
 
 
 
@@ -101,6 +93,16 @@ int main() {
    // } else {
    //    return 0;
    // }
+      // add_declared_var(parser_token, "dcm");
+   // add_declared_var(parser_token, "dcm_thangloz");
+   // add_declared_var(parser_token, "ha viet hung");
+
+   // IsDeclaredVariable(parser_token, "dcm");
+
+   // add_gotoed_var(parser_token, "dcmmmmm");
+   // add_gotoed_var(parser_token, "dcmmmm_thangloz");
+   // add_gotoed_var(parser_token, " hunggg");
+   file_write(f_code);
    
    return 0;
 }

@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "emitter.h"
 
 uint8_t parser_check_token (ParserToken* parser_token, TokenType kind) {
     if (parser_token->cur_token->kind == kind) {
@@ -62,20 +63,27 @@ void parser_init (ParserToken* parser_token, Lexer* code) {
 
 uint8_t parser_program (ParserToken* parser_token, Lexer* code) {
     printf("\nPROGRAM");
+
+    emit_header_nl("#include <stdio.h>");
+    emit_header_nl("int main(void){");
+
     parser_init(parser_token, code);
     /*parser all the statements in the programs*/
     while (!parser_check_token(parser_token, EOF_t)) {
         parser_statement(parser_token, code);
     }
 
-    /*Check that each label referenced in a GOTO is declared*/
-    add_declared_var(parser_token, "dcm");
-    add_declared_var(parser_token, "dcm_thangloz");
-    add_declared_var(parser_token, "ha viet hung");
+    emit_newline("return 0;");
+    emit_newline("}");
 
-    add_gotoed_var(parser_token, "dcm");
-    // add_gotoed_var(parser_token, "dcm_thanglozz");
-    add_gotoed_var(parser_token, "ha viet hungg");
+    /*Check that each label referenced in a GOTO is declared*/
+    // add_declared_var(parser_token, "dcm");
+    // add_declared_var(parser_token, "dcm_thangloz");
+    // add_declared_var(parser_token, "ha viet hung");
+
+    // add_gotoed_var(parser_token, "dcm");
+    // // add_gotoed_var(parser_token, "dcm_thanglozz");
+    // add_gotoed_var(parser_token, "ha viet hungg");
 
     uint32_t i = 0;
     uint32_t j = 0;
@@ -109,6 +117,9 @@ uint8_t parser_statement (ParserToken* parser_token, Lexer* code) {
         printf("\nSTATEMENT - PRINT");
         parser_next_token(parser_token, code);
         if (parser_check_token(parser_token, STRING)) {
+            emit_newline("printf(\"");
+            emit(parser_token->cur_token->text);
+            emit("\\n\");");
             parser_next_token(parser_token, code);
         } else {
             expression(parser_token, code);
@@ -118,27 +129,33 @@ uint8_t parser_statement (ParserToken* parser_token, Lexer* code) {
     else if (parser_check_token(parser_token, IF)) {
         printf("\nSTATEMENT - IF");
         parser_next_token(parser_token, code);
+        emit_newline("if(");
         comparison(parser_token, code);
         parser_match (parser_token, code, THEN);
         parser_nl(parser_token, code);
+        emit(") {");
         /* 0 or more than 1 statement in body*/
         while (!parser_check_token(parser_token, ENDIF)) {
             parser_statement(parser_token, code);
         }
         parser_match(parser_token, code, ENDIF);
+        emit_newline("}");
     }
     /*"WHILE" comparison "REPEAT" nl {statement nl} "ENDWHILE" nl*/
     else if (parser_check_token(parser_token, WHILE)) {
         printf("\nSTATEMENT - WHILE");
         parser_next_token(parser_token, code);
+        emit_newline("while(");
         comparison(parser_token, code);
         parser_match (parser_token, code, REPEAT);
         parser_nl(parser_token, code);
+        emit(") {");
         /* 0 or more than 1 statement in body*/
         while (!parser_check_token(parser_token, ENDWHILE)) {
             parser_statement(parser_token, code);
         }
         parser_match(parser_token, code, ENDWHILE);
+        emit_newline("}");
     }
     /* "LABEL" ident */
     else if (parser_check_token(parser_token, LABEL)) {
@@ -165,11 +182,17 @@ uint8_t parser_statement (ParserToken* parser_token, Lexer* code) {
         parser_next_token(parser_token, code);
         /*if not declared*/
         if (IsDeclaredVariable(parser_token, parser_token->cur_token->text) == 0) {
-            add_declared_var(parser_token, parser_token->cur_token->text);
+            add_declared_var(parser_token, parser_token->cur_token->text);   
+            emit_header_nl("float ");
+            emit_header(parser_token->cur_token->text);
+            emit_header(";");
         } 
+        emit_newline(parser_token->cur_token->text);
+        emit(" = ");
         parser_match(parser_token, code, IDENT);
         parser_match(parser_token, code, EQ);
         expression(parser_token, code);
+        emit(";");
     }
     /* "INPUT" ident */
     else if (parser_check_token(parser_token, INPUT)) {

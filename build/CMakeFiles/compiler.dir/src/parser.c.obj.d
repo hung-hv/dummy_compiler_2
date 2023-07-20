@@ -29,4 +29,5 @@ CMakeFiles/compiler.dir/src/parser.c.obj: \
  C:/PROGRA~1/mingw64/x86_64-w64-mingw32/include/string.h \
  C:/PROGRA~1/mingw64/x86_64-w64-mingw32/include/sec_api/string_s.h \
  C:/PROGRA~1/mingw64/x86_64-w64-mingw32/include/ctype.h \
- C:/Users/HAU5HC/Desktop/practice/haha_compiler/include/lexer.h
+ C:/Users/HAU5HC/Desktop/practice/haha_compiler/include/lexer.h \
+ C:/Users/HAU5HC/Desktop/practice/haha_compiler/include/emitter.h

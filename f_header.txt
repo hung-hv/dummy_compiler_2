@@ -1,2 +1,6 @@
-ha viet hung
-ha viet dung
+
+#include <stdio.h>
+int main(void){
+float a;
+float b;
+float c;

@@ -1,3 +1,17 @@
-ha viet hung
-ha viet dunghahahahahaha hihihi
-ha viet 
+
+#include <stdio.h>
+int main(void){
+float a;
+float b;
+float c;
+printf("How many fibonacci numbers do you want?\n");
+a = ;
+b = ;
+while() {
+c = ;
+a = ;
+b = ;
+nums = ;
+}
+return 0;
+}

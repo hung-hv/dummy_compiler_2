@@ -1,2 +1,12 @@
-hahahahahaha hihihi
-ha viet 
+
+printf("How many fibonacci numbers do you want?\n");
+a = ;
+b = ;
+while() {
+c = ;
+a = ;
+b = ;
+nums = ;
+}
+return 0;
+}

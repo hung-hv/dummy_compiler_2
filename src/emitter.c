@@ -49,7 +49,15 @@ uint8_t emit_header(char* code) {
     f_header = fopen("../f_header.txt", "a");
     printf("\n>>Pointer emit_pos->header_pos = %d", *(emit_pos->header_pos));
     f_write(code, f_header, emit_pos->header_pos);
+    fclose(f_header);
+    printf("\n>>Write Header DONE");
+}
+
+uint8_t emit_header_nl(char* code) {
+    f_header = fopen("../f_header.txt", "a");
+    printf("\n>>Pointer emit_pos->header_pos = %d", *(emit_pos->header_pos));
     f_write("\n", f_header, emit_pos->header_pos);
+    f_write(code, f_header, emit_pos->header_pos);
     fclose(f_header);
     printf("\n>>Write Header DONE");
 }
@@ -57,19 +65,19 @@ uint8_t emit_header(char* code) {
 uint8_t file_write(FILE *f_submit) {
     // FILE* file;
     // size_t* reader;
-    const uint8_t size = 64;
+    const uint8_t size = 8;
     uint8_t buffer[size];
     size_t read_bytes = 0;
     size_t total_bytes = 0;
-    f_submit = fopen("../f_final.txt", "w");
-    f_emit = fopen("../f_emit.txt", "rb");
-    f_header = fopen("../f_header.txt", "rb");
+    f_submit =  fopen("../f_final.txt",     "w");
+    f_emit =    fopen("../f_emit.txt",      "r");
+    f_header =  fopen("../f_header.txt",    "r");
     while ((read_bytes = fread(buffer, 1, size, f_header)) > 0) {
         printf("\n>> read_byte = %d", read_bytes);
         fwrite(buffer, 1, read_bytes, f_submit);
-        total_bytes = total_bytes + read_bytes;
+        // total_bytes = total_bytes + read_bytes;
     }
-    fseek(f_submit, total_bytes, SEEK_SET);
+    // fseek(f_submit, total_bytes, SEEK_SET);
     while ((read_bytes = fread(buffer, 1, size, f_emit)) > 0) {
         printf("\n>> read_byte = %d", read_bytes);
         fwrite(buffer, 1, read_bytes, f_submit);
