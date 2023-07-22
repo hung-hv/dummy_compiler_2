@@ -69,7 +69,7 @@ uint8_t file_write(FILE *f_submit) {
     uint8_t buffer[size];
     size_t read_bytes = 0;
     size_t total_bytes = 0;
-    f_submit =  fopen("../f_final.txt",     "w");
+    f_submit =  fopen("../f_final.c",     "w");
     f_emit =    fopen("../f_emit.txt",      "r");
     f_header =  fopen("../f_header.txt",    "r");
     while ((read_bytes = fread(buffer, 1, size, f_header)) > 0) {
