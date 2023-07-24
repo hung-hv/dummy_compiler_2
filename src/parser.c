@@ -122,7 +122,9 @@ uint8_t parser_statement (ParserToken* parser_token, Lexer* code) {
             emit("\\n\");");
             parser_next_token(parser_token, code);
         } else {
+            emit_newline("printf(\"%.2f\\n\", (float)(");
             expression(parser_token, code);
+            emit("));");
         }
     } 
     /*"IF" comparison "THEN" nl {statement} "ENDIF" nl*/
