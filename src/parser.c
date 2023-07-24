@@ -200,7 +200,17 @@ uint8_t parser_statement (ParserToken* parser_token, Lexer* code) {
         parser_next_token(parser_token, code);
         if (IsDeclaredVariable(parser_token, parser_token->cur_token->text) == 0) {
             add_declared_var(parser_token, parser_token->cur_token->text);
+            emit_header_nl("float ");
+            emit_header(parser_token->cur_token->text);
+            emit_header(";");
         }
+        emit_newline("if(0 == scanf(\"%f\", &");
+        emit(parser_token->cur_token->text);
+        emit(")) {");
+        emit_newline(parser_token->cur_token->text);
+        emit(" = 0;");
+        emit_newline("scanf(\"%*s\");");
+        emit_newline("}");
         parser_match(parser_token, code, IDENT);
     } else {
         printf("\nInvalid statement at ");
@@ -215,12 +225,14 @@ void comparison (ParserToken* parser_token, Lexer* code) {
     printf("\nCOMPARISON");
     expression(parser_token, code);
     if (IsComparisonOperator(parser_token, code)) {
+        emit(parser_token->cur_token->text);
         parser_next_token(parser_token, code);
         expression(parser_token, code);
     } else {
         printf("Expected comparison operator at: %s", parser_token->cur_token->text);
     }
     while (IsComparisonOperator(parser_token, code)) {
+        emit(parser_token->cur_token->text);
         parser_next_token(parser_token, code);
         expression(parser_token, code);
     }
@@ -243,6 +255,7 @@ void expression (ParserToken* parser_token, Lexer* code) {
     printf("\nEXPRESSION");
     term(parser_token, code);
     while (parser_check_token(parser_token, MINUS) || parser_check_token(parser_token, PLUS)) {
+        emit(parser_token->cur_token->text);
         parser_next_token(parser_token, code);
         term(parser_token, code);
     }
@@ -253,6 +266,7 @@ void term (ParserToken* parser_token, Lexer* code) {
     printf("\nTERM");
     unary(parser_token, code);
     while (parser_check_token(parser_token, SLASH) || parser_check_token(parser_token, ASTERISK)) {
+        emit(parser_token->cur_token->text);
         parser_next_token(parser_token, code);
         unary(parser_token, code);
     }
@@ -261,8 +275,8 @@ void term (ParserToken* parser_token, Lexer* code) {
 void unary (ParserToken* parser_token, Lexer* code) {
     /* unary ::= ["+" | "-"] primary */
     printf("\nUNARY");
-    if (parser_check_token(parser_token, PLUS) 
-    || parser_check_token(parser_token, MINUS)) {
+    if (parser_check_token(parser_token, PLUS) || parser_check_token(parser_token, MINUS)) {
+        emit(parser_token->cur_token->text);
         parser_next_token(parser_token, code);
     }
     primary(parser_token, code);
@@ -273,6 +287,7 @@ uint8_t primary (ParserToken* parser_token, Lexer* code) {
     printf("\nPRIMARY");
     if (parser_check_token(parser_token, NUMBER)) {
         printf(" ( %s )", parser_token->cur_token->text);
+        emit(parser_token->cur_token->text);
         parser_next_token(parser_token, code);
     } else if (parser_check_token(parser_token, IDENT)) {
         printf(" ( %s )", parser_token->cur_token->text);
@@ -280,6 +295,7 @@ uint8_t primary (ParserToken* parser_token, Lexer* code) {
         if (IsDeclaredVariable(parser_token, parser_token->cur_token->text) == 0) {
             return 0;
         }
+        emit(parser_token->cur_token->text);
         parser_next_token(parser_token, code);
     } else {
         printf("\n>>ERROR!!!");
